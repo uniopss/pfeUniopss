@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<lc multi="y">
+        <r id='noFiche'>Numéro de fiche</r>
+		<r id='motsCles'>Mots clés</r>
+		<r id='date_fin'>Date de fin</r>
+        <r id='business_field'>Business Field</r>
+		<r id='auteur'>Auteur de publication</r>
+</lc>

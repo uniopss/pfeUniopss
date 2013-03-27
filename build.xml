@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<project name="Fuzion BackOffice" default="deploy-backoffice" basedir="." >
+
+		<property file="build.properties"/>
+		<!-- Proprietes plateforme -->
+		<property file="${basedir}/${platform}.properties"/>
+
+		<!-- des class compilees -->
+        <property name="build.classes.dir" value="${basedir}/out/classes"/>
+		<property name="projet_libs.dir" value="${basedir}/../fuzion-deps"/>
+
+		<property name="core-libs.dir" value="${projet_libs.dir}/core"/>
+		<property name="jee-libs.dir" value="${projet_libs.dir}/jee"/>
+		<property name="web-libs.dir" value="${projet_libs.dir}/web"/>
+		<property name="ext-libs.dir" value="${projet_libs.dir}/ext"/>
+
+		<property name="tomcat.backoffice" value="${cms.dir}/tomcat/webapps/backoffice" />
+
+
+		<path id="compile.class.path">
+                <fileset dir="${core-libs.dir}">
+                        <include name="**/*.jar"/>
+                </fileset>
+                <fileset dir="${jee-libs.dir}">
+                        <include name="**/*.jar"/>
+                </fileset>
+	            <fileset dir="${web-libs.dir}">
+                        <include name="**/*.jar"/>
+                </fileset>
+                <dirset dir="${build.classes.dir}" />
+		</path>
+
+		<target name="init" description="Initialisation des variables d'environnement">
+            <tstamp/>
+			<property name="distpath.project" value="${basedir}/dist"/>
+            <property name="base.dir.config" value="${basedir}/conf/cms"/>
+			<property name="cms.dir.config" value="${cms.dir}/conf"/>
+			<property name="base.dir.workflow" value="${basedir}/conf/workflow"/>
+			<property name="cms.dir.workflow" value="${cms.dir}/workflow"/>
+			<property name="backoffice.web.dir" value="${basedir}/src/web/backOffice"/>
+			<property name="out.dir" value="${basedir}/out"/>
+			<property name="backoffice.war" value="${basedir}/dist/fuzion_bo-${packaging.prefix}-${packaging.version}-${packaging.release}.war"/>
+	   	</target>
+
+		<target name="clean" depends="init">
+			<delete dir="${out.dir}" quiet="true"/>
+			<delete dir="${distpath.project}" quiet="true"/>
+		</target>
+
+
+		<target name="prepare" depends="init">
+				<mkdir dir="${out.dir}"/>
+		</target>
+
+		<!-- configure la plateforme par cible different -->
+		<target name="configure" depends="init">
+				<!-- changement du répertoire config dans le template -->
+				<replace file="${build.classes.dir}/ion-locate.properties" token="@CONFIG-DIRECTORY@" value="${cms.dir.config}" />
+				<replace file="${build.classes.dir}/log4j.properties" token="@LOG-FILE@" value="${logs-file}" />
+				<replace file="${build.classes.dir}/jobs.xml" token="@OS-SCRIPT-EXTENSION@" value="${script-extension}" />
+
+				<copy todir="${cms.dir.config}" verbose="true" overwrite="true">
+						<fileset dir="${base.dir.config}" />
+				</copy>
+				<replace file="${cms.dir.config}/config.properties" token="@MAILHOST@" value="${mailHost}" />
+		</target>
+
+		<!-- compilation du framework -->
+		<target name="compile" depends="clean, prepare" description="Compliation du projet">
+                <mkdir dir="${build.classes.dir}"/>
+                <javac
+                        source="1.5"
+                        debug="true"
+                        destdir="${build.classes.dir}"
+                		encoding="ISO-8859-1"
+                        classpathref="compile.class.path">
+                        <include name="**/*"/>
+                        <src path="${basedir}/src/java" />
+                </javac>
+				<copy todir="${build.classes.dir}" >
+			    	<fileset dir="${basedir}/src/java" >
+						<include name="**/*.xml" />
+						<include name="**/*.properties" />
+						<include name="**/*.xsl" />
+			    	</fileset>
+				</copy>
+		</target>
+
+		<target name="apps" depends="compile, configure">
+				<copy todir="${build.classes.dir}" verbose="true">
+			    	<fileset dir="${basedir}/src/java" >
+						<include name="**/*.xml" />
+						<include name="**/*.properties" />
+						<include name="**/*.xsl" />
+			    	</fileset>
+				</copy>
+		</target>
+
+		<!-- création les jars nécessaires pour le front office et le backoffice dans le
+		répertoire de distrib -->
+	    <target name="dist" description="Create binary distribution" depends="apps">
+	    	<!-- creation du jar commun -->
+	    	<mkdir dir="${distpath.project}"/>
+			<mkdir dir="${distpath.project}/tmp"/>
+			<copy todir="${distpath.project}/tmp" >
+						<fileset dir="${build.classes.dir}">
+							<include name="**/**" />
+							<exclude name="**/backoffice/**" />
+							<exclude name="**/ion/service/**" />
+						</fileset>
+			</copy>
+			<jar jarfile="${distpath.project}/fuzion_shared.jar" basedir="${distpath.project}/tmp">
+					<exclude name="**/jobs.xml" />
+			 </jar>
+			<!-- creation du jar front -->
+			<delete dir="${distpath.project}/tmp" quiet="true"/>
+			<mkdir dir="${distpath.project}/tmp"/>
+			<copy todir="${distpath.project}/tmp" verbose="true">
+					<fileset dir="${build.classes.dir}">
+							<include name="**/ion/service/**" />
+							<exclude name="**/*.jar" />
+	                </fileset>
+			</copy>
+			<jar jarfile="${distpath.project}/fuzion_front.jar" basedir="${distpath.project}/tmp" />
+			<!-- creation du jar back -->
+			<delete dir="${distpath.project}/tmp" quiet="true"/>
+			<mkdir dir="${distpath.project}/tmp"/>
+			<copy todir="${distpath.project}/tmp" >
+					<fileset dir="${build.classes.dir}">
+							<include name="**/backoffice/**" />
+	                        <include name="propertyset.xml" />
+	                        <include name="jobs.xml" />
+	                </fileset>
+			</copy>
+			<jar jarfile="${distpath.project}/fuzion_back.jar" basedir="${distpath.project}/tmp" />
+			<!-- clean -->
+			<delete dir="${distpath.project}/tmp" quiet="true"/>
+		</target>
+
+		<target name="unjarBackOffice" depends="init">
+				<delete dir="${out.dir}" quiet="true"/>
+				<mkdir dir="${out.dir}"/>
+				<!-- dezziper les jar backoffice et shared dans le même répertoire -->
+				<unzip src="${distpath.project}/fuzion_back.jar"  dest="${out.dir}" />
+				<unzip src="${distpath.project}/fuzion_shared.jar"  dest="${out.dir}" />
+		</target>
+
+
+
+		<target name="package" depends="init, compile, dist, unjarBackOffice" >
+			<war destfile="${backoffice.war}" webxml="${backoffice.web.dir}/WEB-INF/web.xml" duplicate="preserve" >
+				<webinf dir="${backoffice.web.dir}/WEB-INF" excludes="web.xml"  />
+
+				<classes dir="${out.dir}"  />
+
+				<lib dir="${core-libs.dir}"  />
+				<lib dir="${web-libs.dir}"/>
+
+				<!-- Inclusion de la partie ressources dans le WAR -->
+				<zipfileset dir="${backoffice.web.dir}">
+					<include name="**/*.*" />
+					<exclude name="WEB-INF/**" />
+				</zipfileset>
+			</war>
+			<!-- genération le tar pour le workflow -->
+			<tar tarfile="${distpath.project}/workflow-${packaging.prefix}-${packaging.version}-${packaging.release}.tar">
+						<tarfileset  dir="${base.dir.workflow}" />
+			</tar>
+
+			<!-- genération le tar pour les fichiers configurations -->
+			<mkdir dir="${distpath.project}/tmp"/>
+			<copy todir="${distpath.project}/tmp" verbose="true" overwrite="true">
+					<fileset dir="${base.dir.config}" />
+			</copy>
+			<replace file="${distpath.project}/tmp/config.properties" token="@MAILHOST@" value="${mailHost}" />
+
+			<tar tarfile="${distpath.project}/conf-${packaging.prefix}-${packaging.version}-${packaging.release}.tar">
+				<tarfileset  dir="${distpath.project}/tmp" />
+			</tar>
+			<delete dir="${distpath.project}/tmp" quiet="true"/>
+		</target>
+
+
+		<target name="build-integration-sup" description="Construction des applications pour la plateforme d'intégration (Smart up)">
+			<antcall target="package">
+				<param name="platform" value="integration-sup"/>
+			</antcall>
+		</target>
+		<target name="build-local-sup" description="Construction des applications pour le poste locale">
+			<antcall target="package">
+				<param name="platform" value="local-sup"/>
+			</antcall>
+		</target>
+
+		<target name="build-recette-alfa" description="Construction l'application pour la recette alfa">
+			<antcall target="package">
+				<param name="platform" value="recette-alfa"/>
+			</antcall>
+		</target>
+
+		<target name="build-prod-alfa" description="Construction l'application pour la production alfa">
+			<antcall target="package">
+				<param name="platform" value="prod-alfa"/>
+			</antcall>
+		</target>
+
+		<target name="deploy-backoffice" depends="init">
+			<property file="${basedir}/local-sup.properties"/>
+			<!-- copier des fichiers de workflow dans le répertoire workflow -->
+			<copy todir="${cms.dir}/workflow" verbose="true">
+					<fileset dir="${basedir}/conf/workflow" />
+			</copy>
+
+			<delete dir="${cms.dir}/tomcat/webapps/backoffice" quiet="true"/>
+			<unwar src="${backoffice.war}" dest="${cms.dir}/tomcat/webapps/backoffice" />
+
+		</target>
+
+</project>
+
+

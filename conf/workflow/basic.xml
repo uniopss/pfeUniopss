@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<workflow>
+	<initial-actions>
+		<action id="1">
+			<restrict-to>
+				<conditions type="OR">
+				</conditions>
+			</restrict-to>
+			<pre-functions>
+				<function type="class">
+					<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+				</function>
+				<!-- indispensable -->
+				<function type="class">
+					<arg name="class.name">org.nextime.ion.osworkflow.util.IonInitWorkflow</arg>
+				</function>
+			</pre-functions>
+			<results>
+				<unconditional-result step="1" owner="${caller}"/>
+			</results>
+		</action>
+	</initial-actions>
+	<steps>
+		<!-- Publication draft-->
+		<step id="1" name="En brouillon">
+			<external-permissions>
+				<permission name="publicationIcon:images/publication-create.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+				<action id="11" name="Locker pour éditer">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonOnlyAuthorCondition</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">admins</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+                                                                <arg name="group">gValideurs</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="2" owner="${caller}"/>
+					</results>
+				</action>
+                                <action id="12" name="Faire valider">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonOnlyAuthorCondition</arg>
+							</condition>
+							<condition type="beanshell">
+								<arg name="script">
+									 !org.nextime.ion.framework.business.User.getInstance(context.getCaller()).isInGroup(org.nextime.ion.framework.business.Group.getInstance("admins"))
+								</arg>
+							</condition>
+							<condition type="beanshell">
+								<arg name="script">
+                                                                         !org.nextime.ion.framework.business.User.getInstance(context.getCaller()).isInGroup(org.nextime.ion.framework.business.Group.getInstance("gValideurs"))
+								</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="3" owner="${caller}"/>
+					</results>
+				</action>
+                                <action id="13" name="Valider">
+					<restrict-to>
+                                                <conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">admins</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+                                                                <arg name="group">gValideurs</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="5" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+		<!-- Security for the Edition -->
+		<step id="2" name="En édition">
+			<external-permissions>
+				<permission name="canEdit">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+				<permission name="publicationIcon:images/publication-lock.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+				<action id="21" name="Unlocker">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">admins</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+                                                                <arg name="group">gValideurs</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="1" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+		<!-- Standby until validated by admin -->
+                <step id="3" name="En attente de validation">
+			<external-permissions>
+				<permission name="publicationIcon:images/publication-wait.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+                                <action id="31" name="Accepter la validation">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">admins</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+                                                                <arg name="group">gValideurs</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="5" owner="${caller}"/>
+					</results>
+				</action>
+				<action id="32" name="Refuser la validation;/commentaire.x">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">admins</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+                                                                <arg name="group">gValideurs</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="1" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+		<!-- Publish to the site -->
+                <step id="5" name="Validé">
+			<external-permissions>
+				<permission name="canDisplay">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">visitors</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+				<permission name="canBeSearched">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">visitors</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+				<permission name="publicationIcon:images/publication-published.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+                                <action id="51" name="Annuler la validation">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">admins</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+                                                                <arg name="group">gValideurs</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="1" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+	</steps>
+</workflow>

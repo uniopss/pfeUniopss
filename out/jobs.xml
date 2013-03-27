@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='utf-8'?>
+<quartz xmlns="http://www.quartzscheduler.org/ns/quartz"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.quartzscheduler.org/ns/quartz http://www.quartzscheduler.org/ns/quartz/job_scheduling_data_1_1.xsd"
+        version="1.1">
+    <job>
+        <job-detail>
+            <name>MainJob</name>
+            <group>MainJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.MainJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>admin.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>MainCron</name>
+                <group>MainCronGroup</group>
+                <job-name>MainJob</job-name>
+                <job-group>MainJobGroup</job-group>
+                <cron-expression>00 00 01 ? * *</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+
+    <job>
+        <job-detail>
+            <name>IndexJob</name>
+            <group>IndexJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.IndexJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>index</key>
+                    <value>fr</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>IndexCron</name>
+                <group>IndexCronGroup</group>
+                <job-name>IndexJob</job-name>
+                <job-group>IndexJobGroup</job-group>
+                <cron-expression>0 15 10 ? * 6L 2050</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+
+    <job>
+        <job-detail>
+            <name>ServiceJob</name>
+            <group>ServiceJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.ServiceJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>service.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>ServiceCron</name>
+                <group>ServiceCronGroup</group>
+                <job-name>ServiceJob</job-name>
+                <job-group>ServiceJobGroup</job-group>
+                <cron-expression>00 00 03 ? * *</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+    <!-- job news letters grand public -->
+
+    <job>
+        <job-detail>
+            <name>NewsLettersGPJob</name>
+            <group>NewsLettersGPJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.NewsLettersJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>newslettersGrandPublic.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>NewsLettersGPCron</name>
+                <group>NewsLettersGPGroup</group>
+                <job-name>NewsLettersGPJob</job-name>
+                <job-group>NewsLettersGPJobGroup</job-group>
+                <cron-expression>00 00 05 ? * MON#1</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+
+    <job>
+        <job-detail>
+            <name>NewsLettersGP2Job</name>
+            <group>NewsLettersGP2JobGroup</group>
+            <job-class>org.nextime.ion.framework.job.NewsLettersJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>newslettersGrandPublic.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>NewsLettersGP2Cron</name>
+                <group>NewsLettersGP2Group</group>
+                <job-name>NewsLettersGP2Job</job-name>
+                <job-group>NewsLettersGP2JobGroup</job-group>
+                <cron-expression>00 00 05 ? * MON#3</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+
+    <!-- job news letters adherent -->
+    <job>
+        <job-detail>
+            <name>NewsLettersADJob</name>
+            <group>NewsLettersADJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.NewsLettersJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>newslettersAdherent.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>NewsLettersADCron</name>
+                <group>NewsLettersADGroup</group>
+                <job-name>NewsLettersADJob</job-name>
+                <job-group>NewsLettersADJobGroup</job-group>
+                <cron-expression>00 00 02 ? * SAT</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+
+    <!-- job news letters reseau -->
+
+    <job>
+        <job-detail>
+            <name>NewsLettersREJob</name>
+            <group>NewsLettersREJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.NewsLettersJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>newslettersReseau.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>NewsLettersRECron</name>
+                <group>NewsLettersREGroup</group>
+                <job-name>NewsLettersREJob</job-name>
+                <job-group>NewsLettersREJobGroup</job-group>
+                <cron-expression>00 00 02 ? * FRI</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+
+
+    <!-- job news letters a la volee -->
+
+    <job>
+        <job-detail>
+            <name>NewsLettersVOJob</name>
+            <group>NewsLettersVOJobGroup</group>
+            <job-class>org.nextime.ion.framework.job.NewsLettersJob</job-class>
+            <volatility>false</volatility>
+            <durability>false</durability>
+            <recover>false</recover>
+            <job-data-map allows-transient-data="true">
+                <entry>
+                    <key>type</key>
+                    <value>newslettersVolee.sh</value>
+                </entry>
+            </job-data-map>
+        </job-detail>
+        <trigger>
+            <cron>
+                <name>NewsLettersVOCron</name>
+                <group>NewsLettersVOGroup</group>
+                <job-name>NewsLettersVOJob</job-name>
+                <job-group>NewsLettersVOJobGroup</job-group>
+                <cron-expression>0 15 10 ? * 6L 2050</cron-expression>
+            </cron>
+        </trigger>
+    </job>
+</quartz>

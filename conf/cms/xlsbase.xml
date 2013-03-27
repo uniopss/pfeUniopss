@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<lc>
+<r id="b1">
+        <l>Distributeurs de pièces détachées</l>
+        <c>en,rs,ad,cp,vi,tl,fx,we,bs,sm,ne,ga</c>
+</r>
+<r id="b2">
+        <l>Réparateurs agréés</l>
+        <c>en,rs,ty,ad,cp,vi,tl,fx,we,bs,sm,ne,ga</c>
+</r>
+<r id="b3">
+        <l>Revendeurs</l>
+        <c>en,rs,ec,po,pe,ad,cp,vi,tl,fx,we,bs,sm,ne,ga</c>
+</r>
+</lc>
+
+
+
+

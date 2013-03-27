@@ -1,0 +1,39 @@
+<menu-bar title="Uniopss-Uriopss">
+        <menu tab="0" label="Accueil">
+                <menu-item label="Accueil" link="home.x"/>
+                <menu-item label="Mon profil" link="myProfile.x"/>
+                <menu-item label="Mon panier" link="panier.x"/>
+                <menu-item label="Liste des taches" link="myWork.x"/>
+        </menu>
+        <menu tab="1" label="Contribuer">
+                <menu-item label="Gestion des contenus" link="contentManagement.x"/>
+                <menu-item label="Gestion des ressources" link="resourceManagement.x"/>
+                <menu-item label="Gestion des liens" link="listLink.x"/>
+<!--                <menu-item label="Gestion des mails" link="listMail.x"/> -->
+        </menu>
+        <menu tab="2" label="Rechercher">
+                <menu-item label="Standard" link="search.x"/>
+                <menu-item label="Par critère" link="searchAdvanced.x"/>
+                <!--<menu-item label="Par critère" link="searchLc.x"/>-->
+        </menu>
+        <menu tab="3" label="Statistiques">
+				<menu-item label="Region"   link="statRegion.x"/>
+				<menu-item label="Statistique de Production" link="statProd.x"/>
+        </menu>
+        <menu tab="4" label="Configuration">
+                <menu-item label="Utilisateurs" link="listUsers.x"/>
+                <menu-item label="Groupes" link="listGroups.x"/>
+                <menu-item label="Types de contenu" link="listTypes.x"/>
+                <menu-item label="Sites" link="listSites.x"/>
+        </menu>
+		<menu tab="5" label="Tâches">
+                <menu-item label="Relance de newsletter" link="sendNewsLetters.x"/>
+        </menu>
+
+        <menu tab="6" label="Aide">
+                <menu-item label="" link="help.x?aide=CMS"/>
+        </menu>
+</menu-bar>
+
+
+

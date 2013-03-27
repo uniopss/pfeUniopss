@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<objets-description>
+        <objets id="presse"      label="Communiqués de presse" />
+        <objets id="sousfamille" label="Liste des sous familles" />
+</objets-description>

@@ -1,0 +1,9 @@
+<resources-description>
+	<resources id="images" label="Images" directory="images" icon="images.gif"/>
+	<resources id="videos" label="Videos" directory="videos" icon="videos.gif"/>
+	<resources id="flashs" label="Flashs" directory="flashs" icon="videos.gif"/>
+	<resources id="htmls" label="HTMLs" directory="htmls" icon="documents.gif"/>
+	<resources id="documents" label="Documents" directory="documents" icon="documents.gif"/>
+	<resources id="pdfs" label="PDFs" directory="pdfs" icon="documents.gif"/>
+	<resources id="audios" label="Audios" directory="audios" icon="audios.gif"/>
+</resources-description>

@@ -1,0 +1,4 @@
+<workflows>
+        <workflow name="basic" type="file"                       location="../workflow/basic.xml"/>
+        <workflow name="noContent" type="file"                   location="../workflow/noContent.xml"/>
+</workflows>

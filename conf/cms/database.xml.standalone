@@ -1,0 +1,16 @@
+<jdo-conf>
+        <database name="ionDatabase" engine="mysql">
+             <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+				<param name="driver-class-name" value="com.mysql.jdbc.Driver" />
+				<param name="username" value="uniopss" />
+			    <param name="password" value="password" />
+			    <param name="url" value="jdbc:mysql://localhost:3306/uniopss" />
+			    <param name="max-active" value="1" />
+		    	<param name="pool-prepared-statements" value="true" />
+		  	</data-source>
+			<mapping href="%conf%mapping.xml"/>
+        </database>
+        <transaction-demarcation mode="local">
+                <transaction-manager name="local" />
+        </transaction-demarcation>
+</jdo-conf>

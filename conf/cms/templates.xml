@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<templates-description>
+
+	<template name="Contenu type" template="contenu" jsp="common/xxx.jsp">
+		<description>Section Contenu</description>
+		<publication-types>information_generale,manifestation_formation,publication,texte_droit,offre_emploi,demande_emploi,liste_lien,texte_de_droit,lien_html</publication-types>
+   </template>
+
+   <!-- commun de tous les sites
+   les pages des site sont référencés au même template
+   avec le même type de traitement
+   -->
+   <template name="Actuallité nationale et régionale de l'UNIOPSS" template="actualite" jsp="common/actualite.jsp">
+   	<description>Actualité régionale.</description>
+   </template>
+
+   <template name="Template liste sous section" template="liste_sous_section" jsp="common/liste_sous_section.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template contenu section" template="contenu_section" jsp="common/contenu_section.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template accueil theme" template="accueil_theme" jsp="common/accueil_theme.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template html" template="accueil_theme" jsp="common/template_html.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   <template name="Template annuaire" template="annuaire" jsp="common/annuaire.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   <template name="Template groupe_travail" template="groupe_travail" jsp="common/groupe_travail.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template groupe_travail" template="manifestation" jsp="common/manifestation.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template formation" template="formation" jsp="common/formation.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template offre_emploi" template="offre_emploi" jsp="common/offre_emploi.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template demande_emploi" template="demande_emploi" jsp="common/demande_emploi.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template saisi_demande_emploi" template="saisi_demande_emploi" jsp="common/saisi_demande_emploi.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+    <template name="Template saisi_offre_emploi" template="saisi_offre_emploi" jsp="common/saisi_offre_emploi.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+    <template name="Template accueil" template="accueil" jsp="common/accueil.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template profile" template="profile" jsp="common/profile.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+	<template name="Template recherche_avancee" template="profile" jsp="common/recherche_avancee.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   	<template name="Template enquete_enligne" template="enquete_enligne" jsp="common/enquete_enligne.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   	<template name="Template demande_information" template="demande_information" jsp="common/demande_information.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   	<template name="Template saisi_information" template="saisi_information" jsp="common/saisi_information.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   	<template name="Template saisi_information" template="inscription_newsletter" jsp="common/inscription_newsletter.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+   	<template name="Template plan_site" template="plan_site" jsp="common/plan_site.jsp">
+		<description></description>
+		<property name="typeMenu"  label="Type de menu ( horizontal ou vertical)" />
+   </template>
+
+</templates-description>
+
